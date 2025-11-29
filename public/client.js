@@ -122,4 +122,38 @@ keys.forEach((key) => {
       socket.send(JSON.stringify(msg));
     }
   });
+  // 5. KEYBOARD SUPPORT -------------------------------------------------
+
+// Map keyboard keys to notes
+const keyToNote = {
+  a: "C",
+  w: "Csharp",
+  s: "D",
+  e: "Dsharp",
+  d: "E",
+  f: "F",
+  t: "Fsharp",
+  g: "G",
+  y: "Gsharp",
+  h: "A",
+  u: "Asharp",
+  j: "B"
+};
+
+document.addEventListener("keydown", (event) => {
+  const key = event.key.toLowerCase();
+  const noteName = keyToNote[key];
+  if (!noteName) return; // ignore keys that are not mapped
+
+  // Play locally
+  playNote(noteName);
+  flashKey(noteName, "self");
+  addActivityEntry(`You played ${noteName}`, "self");
+
+  // Send to partner
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ type: "note", note: noteName }));
+  }
+});
+
 });

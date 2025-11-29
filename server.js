@@ -1,12 +1,14 @@
 // server.js
-// Node.js + Express + WebSocket server
+// Node.js + Express + WebSocket server for Soft Hands Mini Piano
 
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// Use port 4000 to avoid conflicts
+const PORT = process.env.PORT || 4000;
 
 // Serve files from the "public" folder
 app.use(express.static("public"));
@@ -14,12 +16,12 @@ app.use(express.static("public"));
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-let clients = []; // store up to 2 clients
+let clients = []; // store up to 2 clients max
 
 wss.on("connection", (ws) => {
   console.log("New client connected");
 
-  // limit to 2 clients
+  // limit room to 2 clients
   if (clients.length >= 2) {
     ws.send(JSON.stringify({ type: "roomFull" }));
     ws.close();
@@ -32,14 +34,13 @@ wss.on("connection", (ws) => {
   ws.on("message", (message) => {
     let data;
     try {
-      // message is a Buffer, convert to string then JSON
       data = JSON.parse(message.toString());
     } catch (e) {
       console.log("Invalid message from client:", message.toString());
       return;
     }
 
-    // Broadcast notes to the OTHER client
+    // only handle "note" messages for now
     if (data.type === "note") {
       broadcastToOthers(ws, data);
     }
@@ -52,7 +53,7 @@ wss.on("connection", (ws) => {
   });
 });
 
-// Send updated number of players to all clients
+// send how many players are connected
 function updatePlayerCount() {
   const msg = JSON.stringify({
     type: "playerCount",
@@ -66,7 +67,7 @@ function updatePlayerCount() {
   });
 }
 
-// Send a message to all clients except the sender
+// send a message to all clients except the sender
 function broadcastToOthers(sender, data) {
   const msg = JSON.stringify(data);
   clients.forEach((client) => {

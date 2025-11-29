@@ -1,27 +1,25 @@
 // server.js
-// Node.js + Express + WebSocket server for Soft Hands Mini Piano
+// Node + Express + WebSocket server for Soft Hands Mini Piano
 
 const express = require("express");
 const http = require("http");
 const WebSocket = require("ws");
 
 const app = express();
-
-// Use port 3000 for local testing
 const PORT = process.env.PORT || 3000;
 
-// Serve files from the "public" folder
-app.use(express.static("public"));
+// Serve ALL files from this folder (index.html, client.js, sounds/, etc.)
+app.use(express.static(__dirname));
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-let clients = []; // store up to 2 clients max
+let clients = []; // max 2 clients
 
 wss.on("connection", (ws) => {
-  console.log("New client connected");
+  console.log("Client connected");
 
-  // limit room to 2 clients
+  // allow only two clients
   if (clients.length >= 2) {
     ws.send(JSON.stringify({ type: "roomFull" }));
     ws.close();
@@ -40,7 +38,6 @@ wss.on("connection", (ws) => {
       return;
     }
 
-    // Only handle "note" messages (piano notes)
     if (data.type === "note") {
       broadcastToOthers(ws, data);
     }
@@ -53,21 +50,17 @@ wss.on("connection", (ws) => {
   });
 });
 
-// Send updated number of players to all clients
 function updatePlayerCount() {
   const msg = JSON.stringify({
     type: "playerCount",
-    count: clients.length
+    count: clients.length,
   });
 
   clients.forEach((c) => {
-    if (c.readyState === WebSocket.OPEN) {
-      c.send(msg);
-    }
+    if (c.readyState === WebSocket.OPEN) c.send(msg);
   });
 }
 
-// Send a message to all clients except the sender
 function broadcastToOthers(sender, data) {
   const msg = JSON.stringify(data);
   clients.forEach((client) => {

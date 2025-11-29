@@ -1,8 +1,9 @@
-// public/client.js
+// client.js
 // Piano UI + sound + WebSocket + keyboard + chords
 
-// 1. CHORD-SUPPORTING AUDIO
+// 1. Play audio with chord support
 function playNote(noteName) {
+  // sounds/ folder is next to index.html
   const file = `sounds/${noteName}.mp3`;
   const sound = new Audio(file);
   sound.currentTime = 0;
@@ -14,7 +15,7 @@ const keys = document.querySelectorAll(".key");
 const statusText = document.getElementById("statusText");
 const activityLog = document.getElementById("activityLog");
 
-// Activity log helper
+// log helper
 function addActivityEntry(text, who) {
   const div = document.createElement("div");
   div.className = "activity-log-entry " + who;
@@ -23,7 +24,7 @@ function addActivityEntry(text, who) {
   activityLog.scrollTop = activityLog.scrollHeight;
 }
 
-// Highlight keys visually
+// visual key flash
 function flashKey(noteName, who) {
   const key = document.querySelector(`.key[data-note="${noteName}"]`);
   if (!key) return;
@@ -32,12 +33,11 @@ function flashKey(noteName, who) {
   if (who === "partner") key.classList.add("partner-active");
 
   setTimeout(() => {
-    key.classList.remove("self-active");
-    key.classList.remove("partner-active");
+    key.classList.remove("self-active", "partner-active");
   }, 200);
 }
 
-// 3. WebSocket connection (fixed to localhost:3000)
+// 3. WebSocket connection (always to localhost:3000)
 const socket = new WebSocket("ws://localhost:3000");
 
 socket.addEventListener("open", () => {
@@ -68,24 +68,22 @@ socket.addEventListener("message", (event) => {
   }
 });
 
-// 4. Mouse click
+// 4. Mouse click → play + send
 keys.forEach((key) => {
   key.addEventListener("click", () => {
     const noteName = key.dataset.note;
 
-    // You play locally
     playNote(noteName);
     flashKey(noteName, "self");
     addActivityEntry(`You played ${noteName}`, "self");
 
-    // Send to partner
     if (socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify({ type: "note", note: noteName }));
     }
   });
 });
 
-// 5. Keyboard + chords
+// 5. Keyboard mapping + chords
 const keyToNote = {
   a: "C",
   w: "Csharp",
@@ -106,12 +104,10 @@ document.addEventListener("keydown", (event) => {
   const noteName = keyToNote[key];
   if (!noteName) return;
 
-  // You play
   playNote(noteName);
   flashKey(noteName, "self");
   addActivityEntry(`You played ${noteName}`, "self");
 
-  // Send to partner
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ type: "note", note: noteName }));
   }

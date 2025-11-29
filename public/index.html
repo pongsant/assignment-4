@@ -1,4 +1,3 @@
-<!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,7 +9,7 @@
     <div class="app-container">
       <header>
         <h1>Soft Hands Mini Piano</h1>
-        <p class="subtitle">Play simple music together in real time.</p>
+        <p class="subtitle">Play simple songs together in real time.</p>
         <p id="statusText" class="status-text">Connecting...</p>
       </header>
 
@@ -18,16 +17,15 @@
         <section class="side-panel left">
           <h2>How to play</h2>
           <ul>
-            <li>Click the keys to play notes.</li>
+            <li>Click or press keys to play piano notes.</li>
             <li>Your partner hears the same notes.</li>
-            <li>Blue = your notes.</li>
-            <li>Pink = partner's notes.</li>
+            <li>Supports chords (many notes at once).</li>
+            <li>Blue = your notes, Pink = partner.</li>
           </ul>
         </section>
 
         <section class="piano-section">
           <div class="piano-wrapper">
-            <!-- Black keys row -->
             <div class="black-keys-row">
               <button class="key black" data-note="Csharp">C#</button>
               <button class="key black" data-note="Dsharp">D#</button>
@@ -37,7 +35,6 @@
               <button class="key black" data-note="Asharp">A#</button>
             </div>
 
-            <!-- White keys row -->
             <div class="white-keys-row">
               <button class="key white" data-note="C">C</button>
               <button class="key white" data-note="D">D</button>
@@ -57,7 +54,7 @@
       </main>
 
       <footer>
-        <p>Two-person real-time piano. Just sound, no chat.</p>
+        <p>Real-time piano for two people.</p>
       </footer>
     </div>
 

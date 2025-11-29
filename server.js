@@ -36,24 +36,21 @@ wss.on("connection", (ws) => {
     try {
       data = JSON.parse(message.toString());
     } catch (e) {
-      console.log("Invalid message from client:", message.toString());
+      console.log("Invalid message:", message.toString());
       return;
     }
 
-    // only handle "note" messages for now
     if (data.type === "note") {
       broadcastToOthers(ws, data);
     }
   });
 
   ws.on("close", () => {
-    console.log("Client disconnected");
     clients = clients.filter((c) => c !== ws);
     updatePlayerCount();
   });
 });
 
-// send how many players are connected
 function updatePlayerCount() {
   const msg = JSON.stringify({
     type: "playerCount",
@@ -61,13 +58,10 @@ function updatePlayerCount() {
   });
 
   clients.forEach((c) => {
-    if (c.readyState === WebSocket.OPEN) {
-      c.send(msg);
-    }
+    if (c.readyState === WebSocket.OPEN) c.send(msg);
   });
 }
 
-// send a message to all clients except the sender
 function broadcastToOthers(sender, data) {
   const msg = JSON.stringify(data);
   clients.forEach((client) => {
@@ -78,5 +72,5 @@ function broadcastToOthers(sender, data) {
 }
 
 server.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

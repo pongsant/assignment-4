@@ -1,0 +1,178 @@
+/* public/style.css */
+
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at top, #1f2340 0%, #070814 60%, #000000 100%);
+    color: #f5f5f5;
+  }
+  
+  .app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+  }
+  
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+    margin: 0;
+  }
+  
+  .subtitle {
+    margin: 4px 0 8px;
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+  
+  .status-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+  
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  
+  .side-panel {
+    background: rgba(10, 10, 20, 0.75);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+  }
+  
+  .side-panel h2 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  
+  .side-panel ul {
+    padding-left: 18px;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  
+  .piano-section {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .piano-wrapper {
+    background: rgba(10, 10, 20, 0.85);
+    border-radius: 24px;
+    padding: 20px 18px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(20px);
+  }
+  
+  /* Key rows */
+  .black-keys-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) 0.7fr repeat(3, 1fr);
+    justify-items: center;
+    margin-bottom: 4px;
+  }
+  
+  .white-keys-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  
+  /* Keys */
+  .key {
+    border: none;
+    cursor: pointer;
+    transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.06s ease;
+    font-size: 0.8rem;
+  }
+  
+  /* White keys */
+  .key.white {
+    height: 140px;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, #fdfdfd, #e3e3e3);
+    color: #333;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.35);
+  }
+  
+  /* Black keys */
+  .key.black {
+    height: 90px;
+    width: 46px;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #222, #050505);
+    color: #f5f5f5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+  }
+  
+  .black-keys-row .spacer {
+    width: 100%;
+  }
+  
+  /* Active states */
+  .key:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Glow for your notes */
+  .key.self-active {
+    box-shadow: 0 0 16px rgba(85, 177, 255, 0.95);
+    outline: 2px solid rgba(85, 177, 255, 0.9);
+  }
+  
+  /* Glow for partner's notes */
+  .key.partner-active {
+    box-shadow: 0 0 16px rgba(255, 130, 200, 0.95);
+    outline: 2px solid rgba(255, 130, 200, 0.9);
+  }
+  
+  .activity-log {
+    font-size: 0.85rem;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .activity-log-entry {
+    margin-bottom: 4px;
+    opacity: 0.9;
+  }
+  
+  .activity-log-entry.self {
+    color: #7dc4ff;
+  }
+  
+  .activity-log-entry.partner {
+    color: #ff9ed3;
+  }
+  
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 16px;
+  }
+  

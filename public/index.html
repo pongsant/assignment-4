@@ -1,0 +1,66 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Soft Hands Mini Piano</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <h1>Soft Hands Mini Piano</h1>
+        <p class="subtitle">Play simple music together in real time.</p>
+        <p id="statusText" class="status-text">Connecting...</p>
+      </header>
+
+      <main>
+        <section class="side-panel left">
+          <h2>How to play</h2>
+          <ul>
+            <li>Click the keys to play notes.</li>
+            <li>Your partner hears the same notes.</li>
+            <li>Blue = your notes.</li>
+            <li>Pink = partner's notes.</li>
+          </ul>
+        </section>
+
+        <section class="piano-section">
+          <div class="piano-wrapper">
+            <!-- Black keys row -->
+            <div class="black-keys-row">
+              <button class="key black" data-note="Csharp">C#</button>
+              <button class="key black" data-note="Dsharp">D#</button>
+              <div class="spacer"></div>
+              <button class="key black" data-note="Fsharp">F#</button>
+              <button class="key black" data-note="Gsharp">G#</button>
+              <button class="key black" data-note="Asharp">A#</button>
+            </div>
+
+            <!-- White keys row -->
+            <div class="white-keys-row">
+              <button class="key white" data-note="C">C</button>
+              <button class="key white" data-note="D">D</button>
+              <button class="key white" data-note="E">E</button>
+              <button class="key white" data-note="F">F</button>
+              <button class="key white" data-note="G">G</button>
+              <button class="key white" data-note="A">A</button>
+              <button class="key white" data-note="B">B</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="side-panel right">
+          <h2>Live activity</h2>
+          <div id="activityLog" class="activity-log"></div>
+        </section>
+      </main>
+
+      <footer>
+        <p>Two-person real-time piano. Just sound, no chat.</p>
+      </footer>
+    </div>
+
+    <script src="client.js"></script>
+  </body>
+</html>

@@ -6,7 +6,7 @@ const http = require("http");
 const WebSocket = require("ws");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 // Serve ALL files from this folder (index.html, client.js, sounds/, etc.)
 app.use(express.static(__dirname));
